@@ -1,4 +1,5 @@
 let todoList = document.getElementById("todoList");
+let doneList = document.getElementById("doneList");
 let todoInput = document.getElementById("todoInput");
 let todoButton = document.getElementById("todoButton");
 let todoItems = document.getElementsByClassName("todoItemContainer");
@@ -19,6 +20,12 @@ function addItem(itemName, itemLocation) {
 
   removeButton.textContent = "X";
   itemCont.appendChild(removeButton);
+
+  let checkBox = document.createElement("input");
+  checkBox.type = "checkbox";
+  checkBox.className = "checkBox";
+  checkBox.id = "checkBox" + "_" + (todoItems.length - 1).toString();
+  itemCont.appendChild(checkBox);
 }
 
 todoButton.onclick = () => {
@@ -34,6 +41,23 @@ document.addEventListener("click", function (e) {
     todoList.removeChild(todoList.childNodes[index]);
 
     updateClassArr("todoRemoveButton", "todoRemoveButton");
+    updateClassArr("checkBox", "checkBox");
+  } else if (e.target && e.target.className == "checkBox") {
+    if (e.target.checked) {
+      let index = String(e.target.id).split("_").pop();
+      parseInt(index, 10);
+
+      doneList.appendChild(todoItems[index]);
+      updateClassArr("todoRemoveButton", "todoRemoveButton");
+      updateClassArr("checkBox", "checkBox");
+    } else if (!e.target.checked) {
+      let index = String(e.target.id).split("_").pop();
+      parseInt(index, 10);
+
+      todoList.appendChild(todoItems[index]);
+      updateClassArr("todoRemoveButton", "todoRemoveButton");
+      updateClassArr("checkBox", "checkBox");
+    }
   }
 });
 
